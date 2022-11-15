@@ -12,7 +12,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.android.volley.AuthFailureError
-import com.android.volley.Request
 import com.android.volley.RequestQueue
 import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
@@ -74,8 +73,7 @@ class MainActivity : AppCompatActivity() {
         val stringRequest: StringRequest = object :
             StringRequest(Method.GET, MahasiswaApi.GET_ALL_URL, Response.Listener { response ->
                 val gson = Gson()
-                var mahasiswa: Array<Mahasiswa> =
-                    gson.fromJson(response, Array<Mahasiswa>::class.java)
+                var mahasiswa: Array<Mahasiswa> = gson.fromJson(response, Array<Mahasiswa>::class.java)
 
                 adapter!!.setMahasiswaList(mahasiswa)
                 adapter!!.filter.filter(svMahasiswa!!.query)

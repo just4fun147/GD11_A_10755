@@ -1,6 +1,5 @@
 package com.example.gd11_c_10755
 
-import android.app.DownloadManager.Request
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -69,22 +68,19 @@ class AddEditActivity : AppCompatActivity() {
     }
 
     fun setExposedDropDownMenu() {
-        val adapterFakultas: ArrayAdapter<String> =
-            ArrayAdapter<String>(this, R.layout.item_list, FAKULTAS_LIST)
+        val adapterFakultas: ArrayAdapter<String> = ArrayAdapter<String>(this,
+            R.layout.item_list, FAKULTAS_LIST)
         edFakultas!!.setAdapter(adapterFakultas)
 
-        val adapterProdi: ArrayAdapter<String> =
-            ArrayAdapter<String>(this, R.layout.item_list, PRODI_LIST)
+        val adapterProdi: ArrayAdapter<String> = ArrayAdapter<String>(this,
+            R.layout.item_list, PRODI_LIST)
         edProdi!!.setAdapter(adapterProdi)
     }
 
     private fun getMahasiswaById(id: Long) {
         setLoading(true)
         val stringRequest: StringRequest = object :
-            StringRequest(
-                Method.GET,
-                MahasiswaApi.GET_BY_ID_URL + id,
-                Response.Listener { response ->
+            StringRequest(Method.GET,MahasiswaApi.GET_BY_ID_URL + id, Response.Listener { response ->
                     val gson = Gson()
                     val mahasiswa = gson.fromJson(response, Mahasiswa::class.java)
 
@@ -94,19 +90,13 @@ class AddEditActivity : AppCompatActivity() {
                     edProdi!!.setText(mahasiswa.prodi)
                     setExposedDropDownMenu()
 
-                    Toast.makeText(
-                        this@AddEditActivity,
-                        "Data berhasil diambil!",
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    Toast.makeText(this@AddEditActivity,"Data berhasil diambil!",Toast.LENGTH_SHORT).show()
                     setLoading(false)
-                },
-                Response.ErrorListener { error ->
+                }, Response.ErrorListener { error ->
                     setLoading(false)
 
                     try {
-                        val responseBody =
-                            String(error.networkResponse.data, StandardCharsets.UTF_8)
+                        val responseBody = String(error.networkResponse.data, StandardCharsets.UTF_8)
                         val errors = JSONObject(responseBody)
                         Toast.makeText(
                             this@AddEditActivity,
@@ -138,8 +128,7 @@ class AddEditActivity : AppCompatActivity() {
         )
 
         val stringRequest: StringRequest =
-            object :
-                StringRequest(Method.POST, MahasiswaApi.ADD_URL, Response.Listener { response ->
+            object : StringRequest(Method.POST, MahasiswaApi.ADD_URL, Response.Listener { response ->
                     val gson = Gson()
                     var mahasiswa = gson.fromJson(response, Mahasiswa::class.java)
 
@@ -159,8 +148,7 @@ class AddEditActivity : AppCompatActivity() {
                     setLoading(false)
 
                     try {
-                        val responseBody =
-                            String(error.networkResponse.data, StandardCharsets.UTF_8)
+                        val responseBody = String(error.networkResponse.data, StandardCharsets.UTF_8)
                         val errors = JSONObject(responseBody)
                         Toast.makeText(
                             this@AddEditActivity,
@@ -203,7 +191,7 @@ class AddEditActivity : AppCompatActivity() {
         )
 
         val stringRequest: StringRequest = object :
-            StringRequest(Method.POST, MahasiswaApi.ADD_URL, Response.Listener { response ->
+            StringRequest(Method.PUT, MahasiswaApi.UPDATE_URL + id, Response.Listener { response ->
                 val gson = Gson()
 
                 var mahasiswa = gson.fromJson(response, Mahasiswa::class.java)
